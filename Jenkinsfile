@@ -1,4 +1,3 @@
-:::writing{variant="standard" id="42681"}
 pipeline {
     agent any
 
@@ -45,12 +44,3 @@ pipeline {
         }
     }
 }
-:::
-
----
-
-# IMPORTANT
-
-Do NOT copy:
-
-```text id="jlwm2y"
