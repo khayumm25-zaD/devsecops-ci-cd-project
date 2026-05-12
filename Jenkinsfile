@@ -1,47 +1,23 @@
 pipeline {
-    agent any
-
-    tools {
-        nodejs 'nodeJS'
-    }
-
-    environment {
-        SONAR_SCANNER_HOME = tool 'sonar-scanner'
-    }
-
-    stages {
-
-        stage('Check Node Version') {
-            steps {
-                sh 'node -v'
-                sh 'npm -v'
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                sh 'npm test'
-            }
-        }
-
-    }
-}
-pipeline {
 agent any
 
 ```
 tools {
-    nodejs "nodeJS"
-    sonarQubeScanner "sonar-scanner"
+    nodejs 'nodeJS'
+}
+
+environment {
+    SONAR_SCANNER_HOME = tool 'sonar-scanner'
 }
 
 stages {
+
+    stage('Check Node Version') {
+        steps {
+            sh 'node -v'
+            sh 'npm -v'
+        }
+    }
 
     stage('Install Dependencies') {
         steps {
@@ -59,7 +35,7 @@ stages {
         steps {
             withSonarQubeEnv('sonarqube') {
                 sh '''
-                $SCANNER_HOME/bin/sonar-scanner \
+                $SONAR_SCANNER_HOME/bin/sonar-scanner \
                 -Dsonar.projectKey=DevSecOps-Demo \
                 -Dsonar.sources=. \
                 -Dsonar.host.url=http://host.docker.internal:9000
