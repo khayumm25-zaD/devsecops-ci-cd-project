@@ -32,3 +32,42 @@ pipeline {
 
     }
 }
+pipeline {
+agent any
+
+```
+tools {
+    nodejs "nodeJS"
+    sonarQubeScanner "sonar-scanner"
+}
+
+stages {
+
+    stage('Install Dependencies') {
+        steps {
+            sh 'npm install'
+        }
+    }
+
+    stage('Run Tests') {
+        steps {
+            sh 'npm test'
+        }
+    }
+
+    stage('SonarQube Analysis') {
+        steps {
+            withSonarQubeEnv('sonarqube') {
+                sh '''
+                $SCANNER_HOME/bin/sonar-scanner \
+                -Dsonar.projectKey=DevSecOps-Demo \
+                -Dsonar.sources=. \
+                -Dsonar.host.url=http://host.docker.internal:9000
+                '''
+            }
+        }
+    }
+}
+```
+
+}
